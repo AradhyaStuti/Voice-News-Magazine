@@ -112,7 +112,7 @@ voice-news-magazine/
 1. Download or clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/voice-news-magazine.git
+   git clone https://github.com/AradhyaStuti/Voice-News-Magazine.git
    ```
 
 2. Open `index.html` in your browser.
