@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Voice News Magazine - Breaking News Ticker</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Breaking news ticker */
+  #ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    background: #ce80b3; /* red ticker */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 0;
+  }
+  #ticker span {
+    display: inline-block;
+    padding-right: 4rem;
+    animation: tickerScroll 25s linear infinite;
+    cursor: pointer;
+  }
+  #ticker span:hover { text-decoration: underline; }
+  @keyframes tickerScroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Pulse animation for top news */
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59,130,246, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(59,130,246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59,130,246, 0); }
+  }
+
+  .news-card:hover { transform: scale(1.02); transition: transform 0.2s; }
+</style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-4xl font-bold text-center mb-4">📰 Voice News Magazine</h1>
+
+  <!-- Breaking News Ticker -->
+  <div id="ticker"></div>
+
+  <!-- Input Section -->
+  <div class="flex flex-col md:flex-row gap-4 mb-6 items-center justify-center mt-4">
+    <input id="textInput" type="text" placeholder="Type a keyword (e.g., sports news)" class="border p-2 rounded w-full md:w-1/2">
+    <select id="categorySelect" class="border p-2 rounded w-full md:w-1/4">
+      <option value="">Select Category</option>
+      <option value="general">Current Affairs</option>
+      <option value="sports">Sports</option>
+      <option value="technology">Technology</option>
+      <option value="business">Business</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="health">Health</option>
+      <option value="science">Science</option>
+    </select>
+    <button id="voiceBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">🎤 Speak</button>
+    <button id="searchBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">🔍 Search</button>
+  </div>
+
+  <!-- News Container -->
+  <div id="newsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6"></div>
+
+  <!-- Pagination -->
+  <div class="flex justify-center gap-4 mb-8">
+    <button id="prevBtn" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">⏮ Previous</button>
+    <button id="nextBtn" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">⏭ Next</button>
+  </div>
+</div>
+
+<script>
+const apiKey = "b178c529ca51f0ab85af82549c6fa8ca"; // GNews API key
+const textInput = document.getElementById('textInput');
+const categorySelect = document.getElementById('categorySelect');
+const voiceBtn = document.getElementById('voiceBtn');
+const searchBtn = document.getElementById('searchBtn');
+const newsContainer = document.getElementById('newsContainer');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const tickerDiv = document.getElementById('ticker');
+
+let currentQuery = '';
+let currentCategory = '';
+let currentPage = 1;
+const pageSize = 10;
+let breakingNews = []; // store top headlines for ticker
+
+// Fetch news
+async function fetchNews(query = '', category = '', page = 1) {
+  currentQuery = query;
+  currentCategory = category;
+  currentPage = page;
+
+  newsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">Loading news...</p>';
+
+  try {
+    let url = `https://gnews.io/api/v4/top-headlines?apikey=${apiKey}&lang=en&max=${pageSize}&page=${page}`;
+    if (category) url += `&topic=${category}`;
+    if (query) url += `&q=${encodeURIComponent(query)}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.articles && data.articles.length > 0) {
+      newsContainer.innerHTML = '';
+
+      // Update breaking news ticker with top 5 headlines
+      tickerDiv.innerHTML = '';
+      breakingNews = data.articles.slice(0, 5);
+      breakingNews.forEach(article => {
+        const span = document.createElement('span');
+        span.textContent = article.title + " ⚡ ";
+        span.addEventListener('click', () => window.open(article.url, "_blank"));
+        tickerDiv.appendChild(span);
+      });
+
+      data.articles.forEach((article, index) => {
+        const newsCard = document.createElement('div');
+        newsCard.classList.add('news-card','bg-white','rounded','shadow','overflow-hidden','flex','flex-col');
+        if(index === 0 && page === 1) newsCard.classList.add('pulse');
+
+        newsCard.innerHTML = `
+          ${article.image ? `<img src="${article.image}" class="w-full h-48 object-cover">` : ''}
+          <div class="p-4 flex-1 flex flex-col">
+            <h2 class="font-bold text-lg mb-2">${article.title}</h2>
+            <p class="text-gray-700 mb-4 flex-1">${article.description || ''}</p>
+            <div class="mt-auto flex justify-between items-center text-sm">
+              <a href="${article.url}" target="_blank" class="text-blue-600 hover:underline">Read more</a>
+              <span class="text-gray-500">${article.source.name}</span>
+            </div>
+          </div>
+        `;
+        newsContainer.appendChild(newsCard);
+      });
+
+      speakHeadlines(data.articles.slice(0,5));
+    } else {
+      newsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">No news found.</p>';
+      tickerDiv.innerHTML = '';
+    }
+  } catch (error) {
+    console.error(error);
+    newsContainer.innerHTML = '<p class="text-center text-red-500 col-span-full">Failed to load news.</p>';
+    tickerDiv.innerHTML = '';
+  }
+}
+
+// TTS for top 5 headlines
+function speakHeadlines(articles) {
+  if (!('speechSynthesis' in window)) return;
+  const synth = window.speechSynthesis;
+  const utterance = new SpeechSynthesisUtterance('Top headlines: ' + articles.map(a => a.title).join('. '));
+  synth.speak(utterance);
+}
+
+// Search & dropdown
+searchBtn.addEventListener('click', () => fetchNews(textInput.value.trim(), categorySelect.value, 1));
+categorySelect.addEventListener('change', () => fetchNews('', categorySelect.value, 1));
+
+// Voice input
+voiceBtn.addEventListener('click', () => {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return alert("Speech recognition not supported.");
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.start();
+  voiceBtn.textContent = "🎤 Listening...";
+  recognition.onresult = (e) => {
+    voiceBtn.textContent = "🎤 Speak";
+    fetchNews(e.results[0][0].transcript.toLowerCase(), '', 1);
+  };
+  recognition.onerror = () => voiceBtn.textContent = "🎤 Speak";
+});
+
+// Pagination
+prevBtn.addEventListener('click', () => {
+  if(currentPage > 1) fetchNews(currentQuery, currentCategory, currentPage - 1);
+});
+nextBtn.addEventListener('click', () => fetchNews(currentQuery, currentCategory, currentPage + 1));
+
+// Auto-refresh every 5 minutes
+setInterval(() => fetchNews(currentQuery, currentCategory, currentPage), 300000);
+
+// Initial load
+fetchNews('', 'general', 1);
+</script>
+
+</body>
+</html>
