@@ -1,39 +1,39 @@
-# 📰 Voice News Magazine
+#  Voice News Magazine
 
 ### Live Breaking News Web App with Voice Search & Text-to-Speech
 
 A modern, responsive **real-time news web application** powered by the **GNews API**, featuring:
 
-* 🔴 Live breaking news ticker
-* 🎤 Voice-based search (Speech Recognition)
-* 🔊 Automatic headline narration (Text-to-Speech)
-* 📂 Category filtering
-* 📄 Pagination
-* 🔄 Auto-refresh updates
+*  Live breaking news ticker
+*  Voice-based search (Speech Recognition)
+*  Automatic headline narration (Text-to-Speech)
+*  Category filtering
+*  Pagination
+*  Auto-refresh updates
 
 Built using **HTML5, Tailwind CSS, and Vanilla JavaScript**.
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-### 🔴 Breaking News Ticker
+###  Breaking News Ticker
 
 * Displays the top 5 headlines in an animated scrolling ticker.
 * Clickable headlines open full articles in a new tab.
 
-### 🎤 Voice Search (Web Speech API)
+###  Voice Search (Web Speech API)
 
 * Click the **Speak** button.
 * Say a keyword like *“sports news”*.
 * The app fetches related headlines instantly.
 
-### 🔊 Automatic Text-to-Speech
+###  Automatic Text-to-Speech
 
 * Top 5 headlines are read aloud automatically.
 * Enhances accessibility and user engagement.
 
-### 🔍 Smart Search & Filtering
+###  Smart Search & Filtering
 
 * Search by keyword.
 * Filter by category:
@@ -46,23 +46,23 @@ Built using **HTML5, Tailwind CSS, and Vanilla JavaScript**.
   * Health
   * Science
 
-### 📄 Pagination Support
+###  Pagination Support
 
 * Navigate through multiple pages of news results.
 * Smooth content refresh without reloading the page.
 
-### 🔄 Auto Refresh
+###  Auto Refresh
 
 * Automatically refreshes content every 5 minutes to keep news updated.
 
-### 📱 Fully Responsive
+###  Fully Responsive
 
 * Mobile-friendly layout.
 * Grid-based adaptive card design.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Technology          | Purpose                     |
 | ------------------- | --------------------------- |
@@ -75,16 +75,16 @@ Built using **HTML5, Tailwind CSS, and Vanilla JavaScript**.
 
 ---
 
-## 🔑 API Configuration
+##  API Configuration
 
 This project uses the **GNews API**.
 
-### 1️⃣ Get a Free API Key
+### 1️ Get a Free API Key
 
 Sign up at:
-👉 [https://gnews.io](https://gnews.io)
+ [https://gnews.io](https://gnews.io)
 
-### 2️⃣ Replace API Key
+### 2️ Replace API Key
 
 Inside `index.html`, update:
 
@@ -94,7 +94,7 @@ const apiKey = "YOUR_API_KEY";
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 voice-news-magazine/
@@ -105,7 +105,7 @@ voice-news-magazine/
 
 ---
 
-## ⚙️ Installation & Usage
+##  Installation & Usage
 
 ### Option 1: Run Locally
 
@@ -117,12 +117,12 @@ voice-news-magazine/
 
 2. Open `index.html` in your browser.
 
-No build tools required ✅
-No frameworks required ✅
+No build tools required 
+No frameworks required 
 
 ---
 
-## 🧠 How It Works
+##  How It Works
 
 1. On page load → Fetches general headlines.
 2. Top 5 articles:
@@ -139,7 +139,7 @@ No frameworks required ✅
 
 ---
 
-## 📸 UI Highlights
+##  UI Highlights
 
 * Animated breaking ticker
 * Smooth hover card effects
@@ -149,32 +149,32 @@ No frameworks required ✅
 
 ---
 
-## 🌍 Browser Compatibility
+##  Browser Compatibility
 
 | Browser | Support                       |
 | ------- | ----------------------------- |
-| Chrome  | ✅ Full Support (Recommended)  |
-| Edge    | ✅ Supported                   |
-| Firefox | ⚠️ Limited Speech API Support |
-| Safari  | ⚠️ Partial Support            |
+| Chrome  |  Full Support (Recommended)  |
+| Edge    |  Supported                   |
+| Firefox |  Limited Speech API Support |
+| Safari  |  Partial Support            |
 
 > Voice Recognition works best in Chromium-based browsers.
 
 ---
 
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
-* 🌙 Dark Mode Toggle
-* 🌍 Multi-language News Support
-* 🔖 Bookmark & Save Articles
-* 📰 Source Filtering
-* ⚡ Loading Skeleton Animations
-* 🔐 Secure API key handling via backend proxy
+*  Dark Mode Toggle
+*  Multi-language News Support
+*  Bookmark & Save Articles
+*  Source Filtering
+*  Loading Skeleton Animations
+*  Secure API key handling via backend proxy
 
 ---
 
-## 📌 Why This Project?
+##  Why This Project?
 
 This project demonstrates:
 
@@ -194,7 +194,7 @@ Ideal for:
 
 ---
 
-## 📄 License
+##  License
 
 This project is open-source and available for educational and personal use.
 
