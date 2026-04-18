@@ -200,7 +200,7 @@ This project is open-source and available for educational and personal use.
 
 ---
 
-## 👩‍💻 Author
+##  Author
 
 Developed with modern web technologies and API integration best practices.
 
